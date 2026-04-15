@@ -1,4 +1,5 @@
 import BasePlugin, { type BasePluginEvents } from '../base-plugin.js'
+import { getPixelRatio } from '../renderer-utils.js'
 
 export type SpectralPeaksPluginOptions = {
   /** The frequency at which the low-cut filter ends (Hz). Defaults to 250. */
@@ -155,9 +156,10 @@ class SpectralPeaksPlugin extends BasePlugin<SpectralPeaksPluginEvents, Spectral
 
     const colors = this.getColorBuckets(width)
     const peakCount = firstChannel.length
-    const bWidth = this.wavesurfer?.options.barWidth || 1
-    const bGap = this.wavesurfer?.options.barGap || 0
-    const bRadius = this.wavesurfer?.options.barRadius || 0
+    const pixelRatio = getPixelRatio()
+    const bWidth = (this.wavesurfer?.options.barWidth || 1) * pixelRatio
+    const bGap = (this.wavesurfer?.options.barGap || 0) * pixelRatio
+    const bRadius = (this.wavesurfer?.options.barRadius || 0) * pixelRatio
     const bAlign = this.wavesurfer?.options.barAlign
     const step = Math.max(1, bWidth + bGap)
 
